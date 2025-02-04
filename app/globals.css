@@ -1,0 +1,237 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --terminal-green: #00ff00;
+  --terminal-black: #000000;
+  --terminal-white: #ffffff;
+  --terminal-gray: #333333;
+  --terminal-light-gray: #666666;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--terminal-black);
+  color: var(--terminal-white);
+  font-family: "Space Mono", monospace;
+}
+
+.ascii-border {
+  position: fixed;
+  pointer-events: none;
+  font-family: "Space Mono", monospace;
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  line-height: 1;
+  user-select: none;
+  z-index: 50;
+}
+
+.ascii-border.top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+}
+
+.ascii-border.bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+}
+
+.ascii-border.left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 20px;
+}
+
+.ascii-border.right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+}
+
+.terminal-text {
+  font-family: "VT323", monospace;
+  line-height: 1.2;
+}
+
+.retro-button {
+  font-family: "VT323", monospace;
+  background: var(--terminal-black);
+  color: var(--terminal-white);
+  border: 2px solid var(--terminal-white);
+  padding: 8px 16px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retro-button:hover {
+  background: var(--terminal-white);
+  color: var(--terminal-black);
+}
+
+.glitch {
+  animation: glitch 1s linear infinite;
+  position: relative;
+}
+
+@keyframes glitch {
+  2%,
+  64% {
+    transform: translate(2px, 0) skew(0deg);
+  }
+  4%,
+  60% {
+    transform: translate(-2px, 0) skew(0deg);
+  }
+  62% {
+    transform: translate(0, 0) skew(5deg);
+  }
+}
+
+.scan-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  animation: scan 6s linear infinite;
+  z-index: 40;
+}
+
+@keyframes scan {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.geometric-pattern {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: linear-gradient(to right, var(--terminal-light-gray) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--terminal-light-gray) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: 30;
+}
+
+.diagonal-lines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--terminal-light-gray),
+    var(--terminal-light-gray) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  z-index: 20;
+}
+
+.dot-matrix {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: radial-gradient(var(--terminal-light-gray) 1px, transparent 1px);
+  background-size: 10px 10px;
+  z-index: 10;
+}
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--terminal-white), transparent);
+  margin: 2rem 0;
+}
+
+@keyframes scoreUpdate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.score-update {
+  animation: scoreUpdate 0.5s ease-in-out;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+  width: fit-content;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Additional utility classes for form elements */
+.form-checkbox {
+  @apply rounded border-white bg-black text-white focus:ring-white;
+}
+
+.form-checkbox:checked {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+}
+
+.form-checkbox:focus {
+  @apply ring-2 ring-white ring-offset-0;
+}
+
+/* Puzzle grid layout styles */
+.puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.puzzle-piece {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.puzzle-piece:hover {
+  transform: translateY(-5px);
+}
+
+.puzzle-piece::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.puzzle-piece:hover::before {
+  opacity: 1;
+}
+
